@@ -1,4 +1,4 @@
-const fs = require('fs');
+import fs from 'fs';
 
 class ProductManager {
   constructor() {
@@ -9,7 +9,7 @@ class ProductManager {
   async getProducts() {
     try {
       if (fs.existsSync(this.path)) {
-        const products = await fs.promises.readFile(this.path, 'utf8');
+        const products = await fs.promises.readFile(this.path, "utf8");
         const productsJS = JSON.parse(products);
         return productsJS;
       } else {
@@ -53,10 +53,12 @@ class ProductManager {
   async deleteProduct(idProduct) {
     try {
       const productsFile = await this.getProducts();
-      const productIndex = productsFile.findIndex((product) => product.id === idProduct);
-  
+      const productIndex = productsFile.findIndex(
+        (product) => product.id === idProduct
+      );
+
       if (productIndex === -1) {
-        console.log('No se encontró el producto con el ID especificado');
+        console.log("No se encontró el producto con el ID especificado");
       } else {
         productsFile.splice(productIndex, 1);
         await fs.promises.writeFile(this.path, JSON.stringify(productsFile));
@@ -70,10 +72,12 @@ class ProductManager {
   async updateProduct(idProduct, updatedFields) {
     try {
       const productsFile = await this.getProducts();
-      const productIndex = productsFile.findIndex((product) => product.id === idProduct);
-  
+      const productIndex = productsFile.findIndex(
+        (product) => product.id === idProduct
+      );
+
       if (productIndex === -1) {
-        console.log('No se encontró el producto con el ID especificado');
+        console.log("No se encontró el producto con el ID especificado");
       } else {
         const updatedProduct = {
           ...productsFile[productIndex],
@@ -102,7 +106,7 @@ class ProductManager {
     try {
       const product = this.#existingProduct(idProduct);
       if (!product) {
-        console.log('Not found');
+        console.log("Not found");
       } else {
         return product;
       }
@@ -139,14 +143,13 @@ const test = async () => {
   const get4 = await productManager.getProducts();
   console.log("Tercer Consulta: ", get4);
   // Actualizar producto por ID (Precio y Stock)
-  await productManager.updateProduct(2, { 
+  await productManager.updateProduct(2, {
     price: 300,
     stock: 30,
   });
   // Consulta Final
   const get5 = await productManager.getProducts();
   console.log("Tercer Consulta: ", get5);
-
 };
 
 test();
