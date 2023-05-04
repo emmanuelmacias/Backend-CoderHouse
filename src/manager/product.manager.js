@@ -51,6 +51,7 @@ export default class ProductManager {
   }
 
   async addProduct(obj) {
+    const productsFile = await this.getProducts();
     try {
         const product = {
           id: await this.#getMaxId() + 1,

@@ -10,10 +10,14 @@ app.use(express.urlencoded({extended:true}));
 const productManager = new ProductManager('../products.json');
 
 app.get('/products', async(req, res) => {
+  const { limit } = req.query;
   try {
-      const products = await productManager.getProducts();
-      res.status(200).json(products);
-  } catch (error) {
+    const products = await productManager.getProducts();
+    if (limit) { //Limite de prooductos pasados por query
+      res.send(products.slice(0, limit));
+    } else {
+      res.send(products);
+  }} catch (error) {
       res.status(404).json({ message: error.message });
       console.log(error);
   }
