@@ -13,7 +13,7 @@ app.get('/products', async(req, res) => {
   const { limit } = req.query;
   try {
     const products = await productManager.getProducts();
-    if (limit) { //Limite de prooductos pasados por query
+    if (limit) { //Limite de productos pasados por Query
       res.send(products.slice(0, limit));
     } else {
       res.send(products);
