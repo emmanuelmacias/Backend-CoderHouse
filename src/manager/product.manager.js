@@ -1,8 +1,22 @@
 import fs from "fs";
 
-export default class ProductManager {
+export class ProductManager {
   constructor(path) {
-    this.path = path;
+    this.dirName = "./src/files";
+    this.fileName = this.dirName + path;
+    this.fs = fs
+    /* this.path = path; */
+  }
+
+  async createFile() {
+    try {
+      if (!fs.existsSync(this.fileName)) {
+        await this.fs.promises.mkdir(this.dirName, { recursive: true });
+        await this.fs.promises.writeFile(this.fileName, "[]");
+      }
+    } catch (error) {
+      throw new Error(error); // se lanza un objeto Error
+    }
   }
 
   async #getMaxId() {
@@ -16,8 +30,8 @@ export default class ProductManager {
 
   async getProducts() {
     try {
-      if (fs.existsSync(this.path)) {
-        const products = await fs.promises.readFile(this.path, "utf8");
+      if (fs.existsSync(this.fileName)) {
+        const products = await fs.promises.readFile(this.fileName, "utf8");
         const productsJS = JSON.parse(products);
         return productsJS;
       } else {
@@ -58,7 +72,7 @@ export default class ProductManager {
           ...obj
         };
         productsFile.push(product);
-        await fs.promises.writeFile(this.path, JSON.stringify(productsFile));    
+        await fs.promises.writeFile(this.fileName, JSON.stringify(productsFile));    
     } catch (error) {
       console.log(error);
     }
@@ -72,7 +86,7 @@ export default class ProductManager {
         };
         const productsFile = await this.getProducts();
         productsFile.push(product);
-        await fs.promises.writeFile(this.path, JSON.stringify(productsFile));
+        await fs.promises.writeFile(this.fileName, JSON.stringify(productsFile));
         return product;
     } catch (error) {
         console.log(error);
@@ -95,7 +109,7 @@ export default class ProductManager {
           id: id, // aseguramos que no se cambie el ID original
         };
         productsFile[productIndex] = updatedProduct;
-        await fs.promises.writeFile(this.path, JSON.stringify(productsFile));
+        await fs.promises.writeFile(this.fileName, JSON.stringify(productsFile));
         console.log(`Product successfully upgraded`);
       }
     } catch (error) {
@@ -108,7 +122,7 @@ export default class ProductManager {
       const productsFile = await this.getProducts();
       if (productsFile.length > 0) {
         const newArray = productsFile.filter((prod) => prod.id !== id);
-        await fs.promises.writeFile(this.path, JSON.stringify(newArray));
+        await fs.promises.writeFile(this.fileName, JSON.stringify(newArray));
         console.log(`Product whith ${id} removed successfully`);
       } else {
         throw new Error(`Product with ID not found: ${id}`);
@@ -120,8 +134,8 @@ export default class ProductManager {
 
   async deleteAllProducts() {
     try {
-      if (fs.existsSync(this.path)) {
-        await fs.promises.unlink(this.path);
+      if (fs.existsSync(this.fileName)) {
+        await fs.promises.unlink(this.fileName);
       }
     } catch (error) {
       console.log(error);
