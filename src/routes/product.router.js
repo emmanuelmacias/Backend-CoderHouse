@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { ProductManager } from "../api/products/product.manager.js";
+import { productValidator } from "../middlewares/productValidator.js";
 
 const router = Router();
 const productManager = new ProductManager("/products.json")
@@ -33,7 +34,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', productValidator, async (req, res) => {
   try {
     console.log(req.body);
     const { title, description, code, price, stock, category, thumbnail } = req.body;
@@ -49,14 +50,15 @@ router.post('/', async (req, res) => {
     }
     const products = await productManager.getProducts();
     const existingCode = products.find((product) => product.code === code);
-    const requiredFields = ['title', 'description', 'code', 'price', 'stock', 'category'];
+    /* const requiredFields = ['title', 'description', 'code', 'price', 'stock', 'category']; */
 
     if (existingCode) {
       console.log(`Product with code ${code} already exists`);
       res.status(400).send(`Product with code ${code} already exists`);
-    } if (!requiredFields.every((field) => field in req.body)) {
-      res.status(400).json({ message: 'Faltan Campos Obligatorios' });
-    } else {
+    } /* if (!requiredFields.every((field) => field in req.body)) {
+      //Validacion de campos de product
+      res.status(400).json({ message: 'Missing Required Fields' });
+    } */ else {
       await productManager.addProduct(product);
       res.status(201).json({ message: 'Product added', product });
     }
