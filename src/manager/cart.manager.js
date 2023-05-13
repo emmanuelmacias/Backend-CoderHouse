@@ -58,7 +58,7 @@ export class CartManager {
             console.log(error);
         }
     }
-    async addProductCar(idCart, Idproduct){
+    async addProductCart(idCart, Idproduct){
         try {
             let cartGet = await this.getCarts()
             //obtener el carrito por id

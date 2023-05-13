@@ -4,7 +4,7 @@ export class ProductManager {
   constructor(path) {
     this.dirName = "./src/files";
     this.fileName = this.dirName + path;
-    this.fs = fs
+    /* this.fs = fs */
     /* this.path = path; */
   }
 

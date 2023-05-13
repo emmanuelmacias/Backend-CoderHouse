@@ -29,29 +29,33 @@ router.get('/:id', async (req, res) => {
       res.status(400).send('Product not found')
     }
   } catch (error) {
-    console.log(error);
     res.status(404).json({ message: error.message });
   }
 });
 
-router.post('/products', async (req, res) => {
+router.post('/', async (req, res) => {
   try {
+    console.log(req.body);
     const { title, description, code, price, stock, category, thumbnail } = req.body;
     const product = {
       title,
       description,
       code,
       price,
+      status: true,
       stock,
       category,
       thumbnail,
     }
     const products = await productManager.getProducts();
     const existingCode = products.find((product) => product.code === code);
+    const requiredFields = ['title', 'description', 'code', 'price', 'stock', 'category'];
 
     if (existingCode) {
       console.log(`Product with code ${code} already exists`);
       res.status(400).send(`Product with code ${code} already exists`);
+    } if (!requiredFields.every((field) => field in req.body)) {
+      res.status(400).json({ message: 'Faltan Campos Obligatorios' });
     } else {
       await productManager.addProduct(product);
       res.status(201).json({ message: 'Product added', product });
@@ -74,7 +78,6 @@ router.put('/:id', async (req, res) => {
       res.status(404).send('Product not found')
     }
   } catch (error) {
-    console.log(error);
     res.status(404).json({ message: error.message });
   }
 });
@@ -91,18 +94,16 @@ router.delete('/:id', async (req, res) => {
       res.send(`Product id: ${id} not found`);
     }
   } catch (error) {
-    console.log(error);
     res.status(404).json({ message: error.message });
   }
 });
 
-router.delete('/', async (req, res) => {
+router.delete('/', async(req, res)=>{
   try {
-    await productManager.deleteAllProducts();
-    res.send('Products deleted successfully')
+      await productManager.deleteAllProducts();
+      res.send('products deleted successfully')
   } catch (error) {
-    console.log(error);
-    res.status(404).json({ message: error.message });
+      res.status(404).json({ message: error.message });
   }
 });
 
