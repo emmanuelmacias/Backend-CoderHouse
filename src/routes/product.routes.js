@@ -1,6 +1,10 @@
 import { Router } from "express";
 import { ProductManager } from "../api/products/product.manager.js";
 import { productValidator } from "../middlewares/productValidator.js";
+import { Server } from "socket.io";
+
+const socketServer = new Server();
+
 
 const router = Router();
 const productManager = new ProductManager("/products.json")
@@ -88,6 +92,7 @@ router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const products = await productManager.getProducts();
+    socketServer.emit("arrayProducts", products); // socketServer
     const existingCode = products.find((product) => product.id === Number(id));
     if (existingCode) {
       await productManager.deleteProduct(Number(id));
