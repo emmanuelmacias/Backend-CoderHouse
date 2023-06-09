@@ -1,9 +1,9 @@
 const socketClient = io();
 
-socketClient.on("saludoDesdeBack", (message) => {
+/* socketClient.on("saludoDesdeBack", (message) => {
   console.log("Server Message:", message);
 });
-socketClient.emit("respuestaDesdeFront", "Thank you!");
+socketClient.emit("respuestaDesdeFront", "Thank you!"); */
 
 // Formulario de nuevos productos
 const form = document.getElementById("form");
@@ -21,7 +21,7 @@ const products = document.getElementById("products");
 const formDeleteProduct = document.getElementById("formDeleteProduct");
 const idProduct = document.getElementById("id");
 
-form.onsubmit = (e) => {
+form.addEventListener("click", () => {
   e.preventDefault();
   const title = inputTitle.value;
   const description = inputDescription.value;
@@ -39,7 +39,7 @@ form.onsubmit = (e) => {
     category,
     thumbnail,
   });
-};
+});
 
 socketClient.on("arrayProducts", (array) => {
   console.log(array);
@@ -60,10 +60,10 @@ socketClient.on("arrayProducts", (array) => {
 /* formDeleteProduct.onsubmit = (e) => {
     e.preventDefault();
     const productId = idProduct.value;
-    socketClient.emit('deleteProduct', productId);
+    socketClientClient.emit('deleteProduct', productId);
   }; */
 
-formDeleteProduct.onsubmit = (e) => {
+formDeleteProduct.addEventListener("click", () => {
   e.preventDefault();
   const productId = idProduct.value;
   fetch(`/products/${productId}`, {
@@ -76,4 +76,4 @@ formDeleteProduct.onsubmit = (e) => {
     .catch((error) => {
       console.log(error);
     });
-};
+});

@@ -28,7 +28,7 @@ export class ProductManager {
     return maxId;
   }
 
-  async getProducts() {
+  async getAllProducts() {
     try {
       if (fs.existsSync(this.fileName)) {
         const products = await fs.promises.readFile(this.fileName, "utf8");
@@ -45,7 +45,7 @@ export class ProductManager {
   async #existingProduct(id) {
     try {
       const productsFile = await this.getProducts();
-      return productsFile.find((products) => products.id === id);
+      return productsFile.find((products) => products.id === Number(id));
     } catch (error) {
       console.log(error);
     }
@@ -64,7 +64,7 @@ export class ProductManager {
     }
   }
 
-  async addProduct(obj) {
+  async createProduct(obj) {
     const productsFile = await this.getProducts();
     try {
         const product = {
@@ -77,21 +77,6 @@ export class ProductManager {
       console.log(error);
     }
   }
-
-/*   async createProduct(obj){
-    try {
-        const product = {
-            id: await this.#getMaxId() + 1,
-            ...obj
-        };
-        const productsFile = await this.getProducts();
-        productsFile.push(product);
-        await fs.promises.writeFile(this.fileName, JSON.stringify(productsFile));
-        return product;
-    } catch (error) {
-        console.log(error);
-    }
-} */
 
   async updateProduct(id, updatedFields) {
     try {

@@ -1,0 +1,54 @@
+
+<h1>Chat E-commerce</h1>
+
+{{!-- <div id="chat-container">
+  <div id="chat-window">
+    <div id="output"></div>
+    <div id="actions"></div>
+  </div>
+  <div id="input-box">
+    <input type="text" id="message" placeholder="Enter your message here..." />
+    <button id="send">Send</button>
+  </div>
+</div> --}}
+
+
+<div class="page-content page-container" id="page-content">
+    <div class="padding">
+        <div class="row container d-flex justify-content-center">
+<div class="col-md-6">
+            <div class="card card-bordered">
+              <div class="card-header" id="actions"><h4 class="card-title" ><strong>Chat</strong></h4></div>
+
+
+              <div class="ps-container ps-theme-default ps-active-y" id="chat-content" style="overflow-y: scroll !important; height:400px !important;">
+                <div class="media media-chat">
+                 <div id="output"></div>
+                </div>
+ 
+
+              <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;"><div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; height: 0px; right: 2px;"><div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 2px;"></div></div></div>
+              
+              <div class="publisher bt-1 border-light">
+                <img class="avatar avatar-xs" src="https://img.icons8.com/color/36/000000/administrator-male.png" alt="...">
+                <input class="publisher-input" type="text" id="message" placeholder="Write something">
+                <span class="publisher-btn file-group">
+                  <i class="fa fa-paperclip file-browser"></i>
+                  <input type="file">
+                </span>
+                <a class="publisher-btn" href="#" data-abc="true"><i class="fa fa-smile"></i></a>
+                <a class="publisher-btn text-info" id="send" data-abc="true"><i class="fa fa-paper-plane"></i></a>
+              </div>
+
+             </div>
+          </div>
+          </div>
+          </div>
+          </div>
+
+<script src="/socket.io/socket.io.js" charset="utf-8"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script src="js/chat.js" charset="utf-8"></script>

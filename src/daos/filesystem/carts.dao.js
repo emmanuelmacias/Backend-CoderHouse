@@ -1,5 +1,5 @@
 import fs from "fs"
-import { ProductManager } from "../products/product.manager.js"
+import { ProductManager } from "../mongodb/products.dao.js"
 
 const productManager = new ProductManager("/products.json")
 
