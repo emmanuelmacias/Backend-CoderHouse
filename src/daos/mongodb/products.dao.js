@@ -2,14 +2,31 @@ import { ProductsModel } from "./models/products.model.js";
 
 export default class ProductsDaoMongoDB {
 
-  async getAllProducts() {
+
+  async getAllProducts(page = 1, limit = 10, sort, query) {
     try {
-     const response = await ProductsModel.find({});
+    const filter = query && { category: query };
+    const sortOptions = sort === "asc" || sort === "desc" ? { price: sort } : {};
+    const response = await ProductsModel.paginate(filter || {}, {
+      page,
+      limit,
+      sort: sortOptions
+    });
+    
+    return response;
+    } catch (error) {
+    console.log(error);
+    }
+    }
+
+/*   async getAllProducts(page = 1, limit = 10) {
+    try {
+     const response = await ProductsModel.paginate({}, { page, limit });
      return response;
     } catch (error) {
       console.log(error);
     }
-  }
+  } */
 
   async getProductById(id) {
     try {

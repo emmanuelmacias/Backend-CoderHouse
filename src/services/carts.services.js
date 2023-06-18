@@ -43,3 +43,34 @@ export const addProductToCartService = async (cid, pid) =>{
         console.log(error);
     }
 };
+
+export const updateProductQuantityService = async(cid, pid, quantity) => {
+  try {
+      const doc = await cartsDao.updateProductQuantity(cid, pid, quantity);
+      return doc;
+  } catch (error) {
+      console.log(error);
+  }
+};
+
+
+export const deleteAllProductCartService = async (cid) => {
+  try {
+    const doc = await cartsDao.deleteAllProductCart(cid);
+    //const doc = await cartsDao.deleteProductToCart(Number(cid));
+    return doc;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
+export const deleteProductFromCartService = async (cid, pid) => {
+  try {
+    const doc = await cartsDao.deleteProductFromCart(cid, pid);
+    //const doc = await cartsDao.deleteProductFromCart(Number(cid), Number(pid));
+    return doc;
+  } catch (error) {
+    console.log(error);
+  }
+};

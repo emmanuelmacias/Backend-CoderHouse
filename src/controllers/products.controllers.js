@@ -8,12 +8,29 @@ import {
   
   export const getAllController = async (req, res, next) => {
     try {
-     const docs = await getAllService();
-     res.json(docs);
+      const { page, limit, sort, query } = req.query;
+      const response = await getAllService(page, limit, sort, query);
+      const next = response.hasNextPage ? `http://localhost:8080/users?page=${response.nextPage}` : null
+      const prev = response.hasPrevPage ? `http://localhost:8080/users?page=${response.prevPage}` : null
+      //res.json(response);
+      res.json({
+        payload: response.docs,
+        info: {
+          count: response.totalDocs,
+          pages: response.totalPages,
+          page: response.page,
+          hasNextPage: response.hasNextPage,
+          hasPrevPage: response.hasPrevPage,
+          next,
+          prev
+        }
+      });
     } catch (error) {
       next(error);
     }
   };
+
+  
   
   export const getByIdController = async (req, res, next) => {
     try {
